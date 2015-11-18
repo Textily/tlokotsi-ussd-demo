@@ -32,12 +32,13 @@ describe("app", function() {
                             'TLHOLO - VICTORY',
                             '1. Join Tlholo',
                             '2. Covers',
-                            '3. Claim Documents',
-                            '4. Motjha-O-Tjhele',
-                            '5. Our Offices',
-                            '6. About Tlholo',
-                            '7. Terms & Conditions',
-                            '8. Exit'
+                            '3. Policy Status',
+                            '4. Claim Documents',
+                            '5. Motjha-O-Tjhele',
+                            '6. Our Offices',
+                            '7. About Tlholo',
+                            '8. T & C',
+                            '9. Exit'
                         ].join('\n')
                     })
                     .run();
@@ -95,11 +96,28 @@ describe("app", function() {
             });
         });
 
+        describe("when the user checks their policy status", function() {
+            it("should present policy status text", function() {
+                return tester
+                    .setup.user.state('states:main')
+                    .input('3')
+                    .check.interaction({
+                        state: 'states:status',
+                        reply: [
+                                'Your policy is in good standing',
+                                '1. Main menu',
+                                '2. Exit'
+                        ].join('\n')
+                    })
+                    .run();
+            });
+        });        
+
         describe("when the user asks to see claim stage requred docs", function() {
             it("should show required docs", function() {
                 return tester
                     .setup.user.state('states:main')
-                    .input('3')
+                    .input('4')
                     .check.interaction({
                         state: 'states:claim',
                         reply: 'Required documents(certified) at claim stage:\nDeath Certificate\nDeaceased ID\nClaimant ID\nOne Month Bank Statement'
@@ -107,13 +125,13 @@ describe("app", function() {
                     .check.reply.ends_session()
                     .run();
             });
-        });        
+        });   
 
         describe("when the user asks to see Motjha-O-Tjhele menu", function() {
             it("should show Motjha-O-Tjhele menu", function() {
                 return tester
                     .setup.user.state('states:main')
-                    .input('4')
+                    .input('5')
                     .check.interaction({
                         state: 'states:rules',
                         reply: 'Motjha-O-Tjhele premiums ranges between R200-R250\nThere are conditions for Motjha-O-Tjhele\nA consultant will call you shortly'
@@ -127,7 +145,7 @@ describe("app", function() {
             it("should present contact details menu", function() {
                 return tester
                     .setup.user.state('states:main')
-                    .input('5')
+                    .input('6')
                     .check.interaction({
                         state: 'states:contact',
                         reply: 'Our Offices\nQwaqwa\nABSA Building\n071 908 2988\n\nBotshabelo\nReahola Complex\n083 669 5913\n\nBloemfontein\n154 Maitland Str\n\n083 669 5913'
@@ -141,7 +159,7 @@ describe("app", function() {
             it("should present about menu", function() {
                 return tester
                     .setup.user.state('states:main')
-                    .input('6')
+                    .input('7')
                     .check.interaction({
                         state: 'states:about',
                         reply: 'Tlholo Victory Financial Services is an authorised\nFinancial services provider\nThe benefits are currently underwritten by Liberty Life'
@@ -155,7 +173,7 @@ describe("app", function() {
             it("should present terms and conditions menu", function() {
                 return tester
                     .setup.user.state('states:main')
-                    .input('7')
+                    .input('8')
                     .check.interaction({
                         state: 'states:terms',
                         reply: 'Six months WAITING period, excerpt suicide 24 Months\n & accidental death 1 month\nR50 Once off Joining fee\nPolicy lapses upon non payment of two premiums'
@@ -169,7 +187,7 @@ describe("app", function() {
             it("should say Tlholo - Victory, show demo by Textily (Pty) Ltd and end the session", function() {
                 return tester
                     .setup.user.state('states:main')
-                    .input('8')
+                    .input('9')
                     .check.interaction({
                         state: 'states:exit',
                         reply: 'Tlholo - Victory\nVictors Not Victims\nDemo by Textily(Pty) Ltd'

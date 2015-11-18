@@ -16,11 +16,12 @@ go.app = function() {
                 choices: [
                     new Choice('states:join', 'Join Tlholo'),
                     new Choice('states:covers', 'Covers'),
+                    new Choice('states:status','Policy Status'),
                     new Choice('states:claim', 'Claim Documents'),
                     new Choice('states:rules', 'Motjha-O-Tjhele'),
                     new Choice('states:contact','Our Offices'),
                     new Choice('states:about', 'About Tlholo'),
-                    new Choice('states:terms', 'Terms & Conditions'),
+                    new Choice('states:terms', 'T & C'),
                     new Choice('states:exit', 'Exit')],
 
                 next: function(choice) {
@@ -31,7 +32,7 @@ go.app = function() {
 
         self.states.add('states:join', function(name){
             return new FreeText(name,{
-                question: 'Enter your name and a consultant will call you back shortly: ',
+                question: 'Enter your name and Tlholo representative will call you back shortly:',
                 next: function(content){
 
                     self.contact.extra.join = content;
@@ -39,6 +40,20 @@ go.app = function() {
                     return self.im.contacts.save(self.contact).then(function(){
                         return "states:exit";
                     });
+                }
+            });
+        });
+
+        self.states.add('states:status', function(name){
+            return new ChoiceState(name,{
+                question: 'Your policy is in good standing',
+
+                choices: [
+                    new Choice('states:main', 'Main menu'),
+                    new Choice('states:exit', 'Exit')],
+
+                next: function(choice) {
+                    return choice.value;
                 }
             });
         });
