@@ -1,6 +1,7 @@
 go.app = function() {
     var vumigo = require('vumigo_v02');
     var App = vumigo.App;
+    var MenuState = vumigo.states.MenuState;
     var Choice = vumigo.states.Choice;
     var ChoiceState = vumigo.states.ChoiceState;
     var EndState = vumigo.states.EndState;
@@ -10,7 +11,7 @@ go.app = function() {
         App.call(self, 'states:language');
 
         self.states.add('states:language', function(name) {
-            return new ChoiceState(name, {
+            return new MenuState(name, {
                 question: 'Choose Language',
 
                 choices: [
@@ -19,9 +20,6 @@ go.app = function() {
                     new Choice('states:notsupported', 'Isizulu'),
                     new Choice('states:exit', 'Exit')],
 
-                next: function(choice) {
-                    return choice.value;
-                }
             });
         });
 
@@ -107,56 +105,56 @@ go.app = function() {
         self.states.add('states:single_cover', function(name){
             return new EndState(name,{
                 text: 'Age: [18-64] cover[5000 - 20 000] premium[R80-R180]\nAge: [65-74] cover[5000 - 10 000] premium[R100-R170]\nAge: [75-84] cover[5000] premium[R190]',
-                next: 'states:exit'
+                next: 'states:language'
             });
         });
 
         self.states.add('states:family_cover', function(name){
             return new EndState(name,{
                 text: 'Our family covers premium\nranges from R80 to R280\ndepending on how many family\nmembers you would like to include\nConsultant will call you shortly',
-                next: 'states:exit'
+                next: 'states:language'
             });
         });
 
         self.states.add('states:claim', function(name){
             return new EndState(name,{
                 text: 'Required documents(certified) at claim stage:\nDeath Certificate\nDeaceased ID\nClaimant ID\nOne Month Bank Statement',
-                next: 'states:exit'
+                next: 'states:language'
             });
         });
 
         self.states.add('states:rules', function(name){
             return new EndState(name,{
                 text: 'Motjha-O-Tjhele premiums ranges between R200-R250\nThere are conditions for Motjha-O-Tjhele\nA consultant will call you shortly',
-                next: 'states:exit'
+                next: 'states:language'
             });
         });
 
         self.states.add('states:contact', function(name){
             return new EndState(name,{
                 text: 'Our Offices\nQwaqwa\nABSA Building\n071 908 2988\n\nBotshabelo\nReahola Complex\n083 669 5913\n\nBloemfontein\n154 Maitland Str\n\n083 669 5913',
-                next: 'states:exit'
+                next: 'states:language'
             });
         });
 
         self.states.add('states:about', function(name){
             return new EndState(name,{
                 text: 'Tlholo Victory Financial Services is an authorised\nFinancial services provider\nThe benefits are currently underwritten by Liberty Life',
-                next: 'states:exit'
+                next: 'states:language'
             });
         });
 
         self.states.add('states:terms', function(name){
             return new EndState(name,{
                 text: 'Six months WAITING period, excerpt suicide 24 Months\n & accidental death 1 month\nR50 Once off Joining fee\nPolicy lapses upon non payment of two premiums',
-                next: 'states:exit'
+                next: 'states:language'
             });
         });
 
         self.states.add('states:exit', function(name) {
             return new EndState(name, {
                 text: 'Tlholo - Victory\nVictors Not Victims\nDemo by Textily(Pty) Ltd',
-                next: 'states:exit'
+                next: 'states:language'
             });
         });
     });
