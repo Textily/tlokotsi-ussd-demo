@@ -1,3 +1,3 @@
-Tlokotsi-Finance-Ussd-Sample-Demo
+Tlokotsi-Finance-Ussd-Demo
 =
 Javascript sandbox application
