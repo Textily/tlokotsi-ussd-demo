@@ -14,7 +14,37 @@ go.app = function() {
     var FreeText = vumigo.states.FreeText;
 
     var GoApp = App.extend(function(self) {
-        App.call(self, 'states:main');
+        App.call(self, 'states:language');
+
+        self.states.add('states:language', function(name) {
+            return new ChoiceState(name, {
+                question: 'Choose Language',
+
+                choices: [
+                    new Choice('states:main', 'English'),
+                    new Choice('states:notsupported', 'Sesotho'),
+                    new Choice('states:notsupported', 'Isizulu'),
+                    new Choice('states:exit', 'Exit')],
+
+                next: function(choice) {
+                    return choice.value;
+                }
+            });
+        });
+
+        self.states.add('states:notsupported', function(name) {
+            return new ChoiceState(name, {
+                question: 'Sesotho & Isizulu menus are currently not active. Please user english version.',
+
+                choices: [
+                    new Choice('states:join', 'English'),
+                    new Choice('states:exit', 'Exit')],
+
+                next: function(choice) {
+                    return choice.value;
+                }
+            });
+        });
 
         self.states.add('states:main', function(name) {
             return new ChoiceState(name, {
@@ -53,7 +83,7 @@ go.app = function() {
 
         self.states.add('states:status', function(name){
             return new ChoiceState(name,{
-                question: 'Your policy is in good standing',
+                question: 'Your policy is in good standing.',
 
                 choices: [
                     new Choice('states:main', 'Main menu'),

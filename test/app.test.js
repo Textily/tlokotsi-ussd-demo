@@ -23,9 +23,28 @@ describe("app", function() {
         });
 
         describe("when the user starts a session", function() {
-            it("should present the main menu", function() {
+            it("should present the language menu", function() {
                 return tester
                     .start()
+                    .check.interaction({
+                        state: 'states:language',
+                        reply: [
+                            'Choose Language',
+                            '1. English',
+                            '2. Sesotho',
+                            '3. Isizulu',
+                            '4. Exit'
+                        ].join('\n')
+                    })
+                    .run();
+            });
+        });
+
+        describe("when the user asks to see english menu version", function() {
+            it("should present the english menu", function() {
+                return tester
+                    .setup.user.state('states:language')
+                    .input('1')
                     .check.interaction({
                         state: 'states:main',
                         reply: [
@@ -39,6 +58,23 @@ describe("app", function() {
                             '7. About Tlholo',
                             '8. T & C',
                             '9. Exit'
+                        ].join('\n')
+                    })
+                    .run();
+            });
+        });
+
+        describe("when the user asks to see sesotho menu version", function() {
+            it("should say not supported and offer english as alternative", function() {
+                return tester
+                    .setup.user.state('states:language')
+                    .input('2')
+                    .check.interaction({
+                        state: 'states:notsupported',
+                        reply: [
+                            'Sesotho & Isizulu menus are currently not active. Please user english version.',
+                            '1. English',
+                            '2. Exit'
                         ].join('\n')
                     })
                     .run();
@@ -104,7 +140,7 @@ describe("app", function() {
                     .check.interaction({
                         state: 'states:status',
                         reply: [
-                                'Your policy is in good standing',
+                                'Your policy is in good standing.',
                                 '1. Main menu',
                                 '2. Exit'
                         ].join('\n')
